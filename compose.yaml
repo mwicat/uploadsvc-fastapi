@@ -1,0 +1,34 @@
+services:
+  backend:
+    build:
+      context: backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - /opt/data:/opt/data
+    environment:
+      - APP_SECRET_KEY=ieWe2thahmi5eemoh6Iequoh
+      - APP_UPLOAD_PASSWORD=superpass
+      - APP_UPLOAD_DIR=/opt/data
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./backend/src
+          target: /app/src
+        - action: rebuild
+          path: ./backend/poetry.lock
+  frontend:
+    build:
+      context: frontend
+      target: dev-envs
+    ports:
+      - "5001:3000"
+    volumes: []
+    environment: []
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./frontend/src
+          target: /app/src
+        - action: rebuild
+          path: ./frontend/package-lock.json

@@ -1,0 +1,16 @@
+image_name := 'mwicat/uploadsvc-backend'
+
+default:
+  @just --list
+
+# Build image
+build:
+  @docker build -t '{{image_name}}' .
+
+# Push image
+push:
+  @docker push '{{image_name}}'
+
+# Run command inside container
+run command:
+  @docker run -it --rm -v "$PWD":/app:rw -w /app '{{image_name}}' /bin/sh -c '{{command}}'

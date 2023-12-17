@@ -1,0 +1,1 @@
+# uploadsvc service - fastapi version
