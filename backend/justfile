@@ -13,7 +13,11 @@ push:
 
 # Start service
 up:
-  @docker-compose up '{{service_name}}'
+  @docker-compose up --detach '{{service_name}}'
+
+# Stop container
+down:
+  @docker-compose down '{{service_name}}'
 
 # Run shell inside container
 shell:
@@ -22,3 +26,6 @@ shell:
 # Run command inside container
 run command:
   @docker-compose run --volume "$PWD":/app:rw --workdir /app --entrypoint /bin/sh --rm '{{service_name}}' -c '{{command}}'
+
+watch:
+  @docker-compose watch --no-up '{{service_name}}'
