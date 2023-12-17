@@ -2,6 +2,7 @@ services:
   backend:
     build:
       context: backend
+    image: "${REPO}/uploadsvc-backend"
     ports:
       - "5000:5000"
     volumes:
@@ -20,7 +21,8 @@ services:
   frontend:
     build:
       context: frontend
-      target: dev-envs
+      target: "${FRONTEND_TARGET:-}"
+    image: "${REPO}/uploadsvc-frontend"
     ports:
       - "5001:3000"
     volumes: []

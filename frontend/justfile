@@ -1,20 +1,24 @@
-image_name := 'mwicat/uploadsvc-frontend'
+service_name := 'frontend'
 
 default:
   @just --list
 
 # Build image
 build:
-  @docker build -t '{{image_name}}' .
+  @docker-compose build '{{service_name}}'
 
 # Push image
 push:
-  @docker push '{{image_name}}'
+  @docker-compose --env-file .env-prod '{{service_name}}'
+
+# Start service
+up:
+  @docker-compose up '{{service_name}}'
+
+# Run shell inside container
+shell:
+  @docker-compose run --volume "$PWD":/app:rw --workdir /app --entrypoint /bin/sh --rm '{{service_name}}'
 
 # Run command inside container
 run command:
-  @docker run -it --rm -v "$PWD":/app:rw -w /app '{{image_name}}' /bin/sh -c '{{command}}'
-
-# Run command inside container
-npm command:
-  @just run 'npm {{command}}'
+  @docker-compose run --volume "$PWD":/app:rw --workdir /app --entrypoint /bin/sh --rm '{{service_name}}' -c '{{command}}'
