@@ -27,5 +27,8 @@ shell:
 run command:
   @docker-compose run --volume "$PWD":/app:rw --workdir /app --entrypoint /bin/sh --rm '{{service_name}}' -c '{{command}}'
 
+npm_install package:
+  @docker-compose run --volume "$PWD":/app:rw --workdir /app --entrypoint /bin/sh --rm '{{service_name}}' -c 'npm install {{package}}'
+
 watch:
   @docker-compose watch --no-up '{{service_name}}'
