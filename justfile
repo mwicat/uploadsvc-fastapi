@@ -12,7 +12,10 @@ push:
   @just -f frontend/justfile push
 
 start:
-  @docker-compose up
+  @docker-compose up --detach
+
+stop:
+  @docker-compose down
 
 watch:
-  @docker-compose watch --no-up
+  @docker-compose watch
