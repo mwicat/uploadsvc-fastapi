@@ -27,7 +27,7 @@ export default function FileList() {
     return (
         <>
             <h2>Files</h2>
-            <ul>{fileLst}</ul>
+            {fileLst.length > 0 ? <ul>{fileLst}</ul> : <p>File list is empty</p>}
         </>
     );
 }
