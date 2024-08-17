@@ -10,6 +10,9 @@ python = "^3.8"
 gunicorn = "^21.2.0"
 fastapi = {extras = ["all"], version = "^0.105.0"}
 werkzeug = "^3.0.1"
+sqlalchemy = "^2.0.32"
+python-jose = "^3.3.0"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 
 
 [build-system]
