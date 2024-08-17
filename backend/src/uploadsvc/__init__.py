@@ -27,10 +27,12 @@ from .auth import (
     authenticate_user,
     create_user,
     create_access_token,
+    get_current_active_user,
     verify_token,
     UserCreate,
     InvalidTokenError,
 )
+from .models import User
 from .settings import ACCESS_TOKEN_EXPIRE_MINUTES
 
 
@@ -77,12 +79,18 @@ async def upload_file(
 
 
 @app.get('/files/{filename}')
-async def file_get(filename: str, settings: Annotated[Settings, Depends(get_settings)]):
+async def file_get(
+        filename: str,
+        current_user: Annotated[User, Depends(get_current_active_user)],
+        settings: Annotated[Settings, Depends(get_settings)]):
     return FileResponse(settings.upload_dir / secure_filename(filename))
 
 
 @app.get('/files/')
-async def file_list(request: Request, settings: Annotated[Settings, Depends(get_settings)]):
+async def file_list(
+        request: Request,
+        current_user: Annotated[User, Depends(get_current_active_user)],
+        settings: Annotated[Settings, Depends(get_settings)]):
     file_lst = settings.upload_dir.iterdir()
 
     return {
