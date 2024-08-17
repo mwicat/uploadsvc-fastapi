@@ -1,14 +1,8 @@
 import {Link, useMatch, useResolvedPath} from "react-router-dom";
-import {useEffect, useState} from "react";
 import {useAuth} from "../AuthContext";
 
 export default function Navbar() {
-    const {setAuth, auth} = useAuth();
-
-    useEffect(() => {
-        const authenticated = (localStorage.getItem('token') !== null);
-        setAuth(authenticated);
-    }, []);
+    const {auth} = useAuth();
 
     return (
         <nav className="nav">

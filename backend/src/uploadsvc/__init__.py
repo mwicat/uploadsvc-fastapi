@@ -21,7 +21,7 @@ from werkzeug.utils import secure_filename
 
 
 from .config import Settings
-from .database import SessionLocal
+from .database import get_db
 from .util import save_upload_file
 from .auth import (
     authenticate_user,
@@ -50,15 +50,6 @@ app.add_middleware(
 )
 
 app.mount("/static", StaticFiles(directory="uploadsvc/static"), name="static")
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 
 
 @lru_cache

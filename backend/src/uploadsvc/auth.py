@@ -10,8 +10,8 @@ from jose import JWTError, jwt
 
 from pydantic import BaseModel
 
+from .database import get_db
 from .models import User
-
 from .settings import SECRET_KEY, ALGORITHM
 
 
@@ -77,7 +77,9 @@ def verify_token(token: str = Depends(oauth2_scheme)):
         raise InvalidTokenError from jwt_error
 
 
-def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+def get_current_user(
+        db: Annotated[Session, Depends(get_db)],
+        token: Annotated[str, Depends(oauth2_scheme)]):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get('sub')
@@ -86,7 +88,7 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     except InvalidTokenError:
         raise HTTPCredentialsException()
     else:
-        user = get_user_by_username(username)
+        user = get_user_by_username(db, username)
         if user is None:
             raise HTTPCredentialsException()
         return user
